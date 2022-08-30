@@ -68,7 +68,6 @@ def GetDistance(e1, e2):
     return distanceTable[e1][e2]
 
 connections = []
-#print(connections)
 for c in range(14):
   connections.append([])
 
@@ -126,11 +125,6 @@ def Load():
   nomes_linhas.append('amarela')
   nomes_linhas.append('vermelha')
   nomes_linhas.append('verde')
-  print(nomes_linhas)
-  print(azul)
-  print(amarela)
-  print(vermelha)
-  print(verde)
 
   dists = [10, 18.5, 24.8, 36.4, 38.8, 35.8, 25.4, 17.6, 9.1, 16.7, 27.3, 27.6, 29.8,
       8.5, 14.8, 26.6, 29.1, 26.1, 17.3, 10, 3.5, 15.5, 20.9, 19.1, 21.8,

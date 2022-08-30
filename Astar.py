@@ -218,7 +218,7 @@ def main():
 
     for i in top.path:
       newpath.append(i)
-    newpath.append(s)
+    newpath.append([s, l])
 
     for i in range(len(connections[s])):
       
@@ -255,7 +255,10 @@ def main():
 
   print("Caminho:")
   for p in Q.Top().path:
-    print(p+1)
+    linha = 'sem linha' if p[1] == -1 else 'linha ' + nomes_linhas[p[1]] 
+    print('E',p[0], linha)
+  linha = 'sem linha' if Q.Top().station == -1 else 'linha ' + nomes_linhas[Q.Top().line] 
+  print('E', Q.Top().station, linha)
 
   print("Fim")
 

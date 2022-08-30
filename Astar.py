@@ -256,9 +256,9 @@ def main():
   print("Caminho:")
   for p in Q.Top().path:
     linha = 'sem linha' if p[1] == -1 else 'linha ' + nomes_linhas[p[1]] 
-    print('E',p[0], linha)
+    print('E',p[0]+1, linha)
   linha = 'sem linha' if Q.Top().station == -1 else 'linha ' + nomes_linhas[Q.Top().line] 
-  print('E', Q.Top().station, linha)
+  print('E', Q.Top().station+1, linha)
 
   print("Fim")
 

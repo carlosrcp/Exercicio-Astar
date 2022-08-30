@@ -15,6 +15,7 @@ vermelha = 2
 verde = 3
 
 minCost = [-1]*14
+nomes_linhas=[]
 class State:
   def __init__(self, station, line, distance, target, path):
     self.station = station
@@ -120,6 +121,16 @@ def Load():
   lines[verde].append(3)
   lines[verde].append(12)
   lines[verde].append(13)
+  
+  nomes_linhas.append('azul')
+  nomes_linhas.append('amarela')
+  nomes_linhas.append('vermelha')
+  nomes_linhas.append('verde')
+  print(nomes_linhas)
+  print(azul)
+  print(amarela)
+  print(vermelha)
+  print(verde)
 
   dists = [10, 18.5, 24.8, 36.4, 38.8, 35.8, 25.4, 17.6, 9.1, 16.7, 27.3, 27.6, 29.8,
       8.5, 14.8, 26.6, 29.1, 26.1, 17.3, 10, 3.5, 15.5, 20.9, 19.1, 21.8,
@@ -189,10 +200,7 @@ def main():
   
   breaksteps = 0
 
-  while (Q.Top().station != endStation):  
-    print("Passo: ", breaksteps, "\nMelhor estacao: ", Q.Top().station +1, "\nF:", Q.Top().GetF())
-    
-    print("Estacoes possiveis:")
+  while (Q.Top().station != endStation):
     for s in Q.states:
       print(s.station+1, " F: ", "{:.1f}".format(s.GetF()))
 
@@ -204,6 +212,10 @@ def main():
     top = Q.Top()
       
     Q.PopTop()    
+    
+    linha = 'sem linha' if top.line == -1 else 'linha ' + nomes_linhas[top.line] 
+    print("Passo: ", breaksteps, "\nMelhor estacao: ", top.station +1, linha, "\nF:", top.GetF())
+    print("Estacoes possiveis:")
 
     s = top.station
     l = top.line
@@ -221,21 +233,25 @@ def main():
         continue
       
       d = GetRealDistance(s, con)
-      if l != -1 and not(con in lines[l]): 
-        newStation = -1
+      
+      if l == -1 or not(con in lines[l]): # linhas diferentes
+        newline = -1
           
         for j in range(len(lines)):
-          if l != j and not(s in lines[j]):
-            newStation = j            
+          if s in lines[j] and con in lines[j]:
+            newline = j            
         
-        if newStation!=-1:
+        if newline!=-1:
           cost = d + top.distance + bald
+          if l == -1:
+            cost = cost = d + top.distance # primeira estacao
+
           if minCost[con] == -1 or minCost[con] > cost:
             minCost[con] = cost
-            Q.Add(State(con, newStation, d + top.distance + bald, endStation, newpath))
+            Q.Add(State(con, newline, cost, endStation, newpath))
         else:
           print("ERRO")        
-      else:
+      else: # mesma linha
         cost = d + top.distance
         if minCost[con] == -1 or minCost[con] > cost:
           minCost[con] = cost

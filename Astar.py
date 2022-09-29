@@ -178,6 +178,8 @@ def main():
   
   bald = 30.0 * 4.0/60.0
 
+  print("custo da baldeação: " + "{:.1f}".format(bald))
+
   Q = PriorityQueue(0,0)
   
   startStation = -1
@@ -186,30 +188,39 @@ def main():
     startStation = int(input('Numero da estacao INICIAL: ')) - 1  
   
   while endStation < 0 or endStation > 13:
-    endStation = int(input('Numero da estacao FINAL: ')) - 1
+    endStation = int(input('Numero da estacao FINAL:')) - 1
   
+
   startState = State(startStation, -1, 0, endStation, [])
 
   Q.Add(startState)
   
   breaksteps = 0
 
-  while (Q.Top().station != endStation):
-    for s in Q.states:
-      print(s.station+1, " F: ", "{:.1f}".format(s.GetF()))
-
+  while (1): #Q.Top().station != endStation)    
     if breaksteps > 50: # contador de quantos passos, se chegar num limite para para ficar preso no while
       print("limite de passos alcancado")
       break
     breaksteps +=1
+
+    print("\nPasso: ", breaksteps)
+    print("Estacoes possiveis:")
+    
+    for s in Q.states:
+      print(s.station+1, " F: ", "{:.1f}".format(s.GetF()))
+
         
     top = Q.Top()
       
-    Q.PopTop()    
     
-    linha = 'sem linha' if top.line == -1 else 'linha ' + nomes_linhas[top.line] 
-    print("Passo: ", breaksteps, "\nMelhor estacao: ", top.station +1, linha, "\nF:", top.GetF())
-    print("Estacoes possiveis:")
+    linha = 'sem linha' if top.line == -1 else 'linha ' + nomes_linhas[top.line]
+
+    Q.PopTop()
+    print("Melhor estacao: ", top.station +1, linha, "\nF:", "{:.1f}".format(top.GetF()))
+    if top.station == endStation:
+      Q.Add(top)
+      break
+
 
     s = top.station
     l = top.line
@@ -250,10 +261,8 @@ def main():
         if minCost[con] == -1 or minCost[con] > cost:
           minCost[con] = cost
           Q.Add(State(con, l, d + top.distance, endStation, newpath))    
-    
-    print("")
 
-  print("Caminho:")
+  print("\nCaminho:")
   for p in Q.Top().path:
     linha = 'sem linha' if p[1] == -1 else 'linha ' + nomes_linhas[p[1]] 
     print('E',p[0]+1, linha)

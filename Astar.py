@@ -269,7 +269,6 @@ def main():
   linha = 'sem linha' if Q.Top().station == -1 else 'linha ' + nomes_linhas[Q.Top().line] 
   print('E', Q.Top().station+1, linha)
 
-  print("Fim")
-
+  print("Custo: ", "{:.1f}".format(Q.Top().GetF()))
 
 main()
